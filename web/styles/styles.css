@@ -1,0 +1,187 @@
+body {
+    margin: 0;
+}
+#container{
+    margin-top: 50px;
+}
+
+
+ul {
+    list-style-type: none;
+    margin:0;
+    padding:4px;
+    width: 20%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+li input{
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    border: hidden;
+    width: 100%;
+    font-family: "Century Gothic";
+    text-align: start;
+}
+
+li input:hover{
+    background-color: #555;
+    color: white;
+    border-radius: 4px 8px;
+}
+#content{
+    margin-left:20%;
+    padding:4px 8px;
+    height:1000px;
+
+}
+table {
+    border-collapse: collapse;
+    width: 99.99%;
+
+}
+
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+td a:not(.links) {
+    display: inline-block;
+    text-align: center;
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+    background-color: #4CAF50;
+    cursor: pointer;
+    border: 2px solid;
+}
+td a:not(.links):hover {
+    background-color: white;
+    color: #4CAF50;
+}
+.modify button{
+    display: inline-block;
+    text-align: center;
+    color: white;
+    border-radius: 6px 8px;
+    padding: 14px 16px;
+    background-color: #4CAF50;
+    cursor: pointer;
+    border: 2px solid;
+}
+.modify button:hover {
+    background-color: white;
+    color: #4CAF50;
+}
+
+/*td a:hover {
+    background-color: #111;
+}*/
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover{
+    background-color:#f5f5f5;
+}
+
+#bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: inherit;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+}
+
+#bar li {
+    float: left;
+}
+
+#bar li a {
+    display: block;
+    color: #4CAF50;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/*#bar li a:hover{
+    background-color: #111;
+}*/
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+fieldset { padding:0; border:0; margin-top:25px; }
+label, input { display:block; }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+.links{
+    text-decoration: none;
+    color: #4CAF50;
+}
+.links:visited {
+    text-decoration: none;
+}
+.links:hover {
+    text-decoration: underline;
+}
+
+.links:active {
+    text-decoration: underline;
+}
+
+
+
