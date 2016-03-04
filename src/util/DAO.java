@@ -31,13 +31,13 @@ public class DAO{
             e.printStackTrace();
         }
     }
-    public List<Customer> getCustomers(int idCustomers){
+    public List<Customer> getCustomer(int idCustomer){
         ArrayList<Customer> customers=new ArrayList<>();
         Connection connection=null;
         try {
             connection=ds.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM customers WHERE customerId=?");
-            statement.setInt(1,idCustomers);
+            statement.setInt(1,idCustomer);
             ResultSet resultSet=statement.executeQuery();
             while (resultSet.next()){
                 Customer customer=new Customer(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4));
@@ -105,13 +105,13 @@ public class DAO{
         }
         return customers;
     }
-    public List<Order> getOrders(int idOrders){
+    public List<Order> getOrder(int idOrder){
         Connection connection=null;
         ArrayList<Order> orders=new ArrayList<>();
         try {
             connection=ds.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM orders WHERE orderId=?");
-            statement.setInt(1,idOrders);
+            statement.setInt(1,idOrder);
             ResultSet resultSet=statement.executeQuery();
             while (resultSet.next()){
                 Order order=new Order(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),resultSet.getInt(5),resultSet.getDate(6).toLocalDate(),
@@ -159,13 +159,13 @@ public class DAO{
         return orders;
     }
 
-    public List<Tariff> getTariffs(int idTariffs){
+    public List<Tariff> getTariff(int idTariff){
         Connection connection=null;
         ArrayList<Tariff> tariffs=new ArrayList<>();
         try {
             connection=ds.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM tariffs WHERE tariffId=?");
-            statement.setInt(1,idTariffs);
+            statement.setInt(1,idTariff);
             ResultSet resultSet=statement.executeQuery();
             while (resultSet.next()){
                 Tariff tariff=new Tariff(resultSet.getInt(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getDouble(4));
@@ -233,7 +233,7 @@ public class DAO{
         }
         return tariffs;
     }
-    public List<Service> getServices(int idService){
+    public List<Service> getService(int idService){
         Connection connection=null;
         ArrayList<Service> services=new ArrayList<>();
         try {
@@ -279,5 +279,9 @@ public class DAO{
             e.printStackTrace();
         }
         return services;
+    }
+
+    public DataSource getDs(){
+        return ds;
     }
 }

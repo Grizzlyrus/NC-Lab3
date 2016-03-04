@@ -23,6 +23,7 @@ public class Servlet extends HttpServlet{
         switch (req.getServletPath()){
             case "/newcustomer":
                 Customer c=new Customer((int) (Math.random()*5000),req.getParameter("name"),req.getParameter("phone"),req.getParameter("address"));
+                dbWorker.addCustomer(c);
                 dbWorker.getCustomers()
                         .add(c);
                 resp.sendRedirect(req.getContextPath()+"/index.jsp?button=Customers");
@@ -39,12 +40,16 @@ public class Servlet extends HttpServlet{
                 o.setServiceID(s1.numberProperty());
                 o.setPrevOrderId(0);
                 o.setStat(0);
+                dbWorker.addService(s1);
+                dbWorker.addOrder(o);
                 dbWorker.getServices().add(s1);
                 dbWorker.getOrders().add(o);
                 resp.sendRedirect(req.getContextPath()+"/index.jsp?button=Orders");
+
                 return;
             case "/newtariff":
                 Tariff t=new Tariff((int) (Math.random()*5000),req.getParameter("name"),Double.parseDouble(req.getParameter("speed")),Double.parseDouble(req.getParameter("cost")));
+                dbWorker.addTariff(t);
                 dbWorker.getTariffs()
                         .add(t);
                 resp.sendRedirect(req.getContextPath()+"/index.jsp?button=Tariffs");
@@ -70,6 +75,7 @@ public class Servlet extends HttpServlet{
                 c1.setPhonenum(req.getParameter("phone"));
                 c1.setAdress(req.getParameter("address"));
                 c1.setName(req.getParameter("name"));
+                dbWorker.modifyCustomer(c1);
                 resp.sendRedirect(req.getContextPath()+"/index.jsp?button=Customers");
                 return;
             case "/mTariff":
@@ -77,6 +83,7 @@ public class Servlet extends HttpServlet{
                 tariff.setName(req.getParameter("name"));
                 tariff.setSpeed(Double.parseDouble(req.getParameter("speed")));
                 tariff.setCost(Double.parseDouble(req.getParameter("cost")));
+                dbWorker.modifyTariff(tariff);
                 resp.sendRedirect(req.getContextPath()+"/index.jsp?button=Tariffs");
                 return;
             case "/mOrder":
@@ -88,10 +95,12 @@ public class Servlet extends HttpServlet{
                 newOrder.setServiceId(service.getNumber());
                 newOrder.setPrevOrderId(order.getNumber());
                 newOrder.setStat(1);
+                dbWorker.addOrder(newOrder);
                 dbWorker.getOrders().add(newOrder);
                 service.setActualOrderID(newOrder.getNumber());
                 service.setCustomerID(cId);
                 service.setTariffID(tariff1.getNumber());
+                dbWorker.modifyService(service);
                 resp.sendRedirect(req.getContextPath()+"/index.jsp?button=Orders");
                 return;
         }
