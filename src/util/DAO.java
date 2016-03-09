@@ -9,6 +9,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,13 +24,14 @@ import java.util.List;
  * Created by Iorlov on 02.02.2016.
  */
 public class DAO{
-    private static DataSource ds;
+    private DataSource ds;
 
-    static {
+    public DAO(){
         try {
             Context ctx = new InitialContext();
             //TODO PostgresPool
             ds = (DataSource) ctx.lookup("jdbc/PostgresPool");
+            System.out.println(1);
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -68,7 +73,14 @@ public class DAO{
                 customers.add(customer);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            File a= new File("error.txt");
+            try(PrintWriter printWriter=new PrintWriter(new File("error.txt"))){
+                printWriter.write(e.getMessage());
+                printWriter.close();
+            }
+            catch (IOException err){}
+
         } finally {
             try {
                 if (connection != null) {

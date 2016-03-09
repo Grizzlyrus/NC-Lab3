@@ -1,5 +1,6 @@
 package model;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -30,6 +31,7 @@ public class Service extends ModelItem{
         this.actualOrderID = actualOrderID;
     }
 
+    @XmlElement(name = "status")
     public void setStatus(int Status){
         this.status =Status;
     }
@@ -38,16 +40,19 @@ public class Service extends ModelItem{
         return status;
     }
 
+    @XmlElement(name = "tariffID")
     public void setTariffID(int TariffID){
         this.tariffID =TariffID;
     }
     public int TariffIDprop(){return tariffID;}
 
+    @XmlElement(name = "customerID")
     public void setCustomerID(int CustomerID){
         this.customerID =CustomerID;
     }
     public int CustomerIDprop(){return customerID;}
 
+    @XmlElement(name = "actualOrderID")
     public void setActualOrderID(int ActualOrderID){
         this.actualOrderID =ActualOrderID;
     }
