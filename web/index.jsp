@@ -16,6 +16,7 @@
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="scripts/stupidtable.js"></script>
     <script src="scripts/script.js"></script>
+    <jsp:useBean id="DBworker" class="util.DBWorker" scope="session"/>
 </head>
 <body>
 <div id="container">
@@ -36,10 +37,9 @@
                 <a id="tariffLink" href="modifyItem.jsp?create=tariff">Tariff</a>
             </div>
         </div></li>
-        <li><a href="#news">Something</a></li>
+        <li><a href="importPage.jsp">Import</a></li>
     </ul>
     <div id="content">
-        <jsp:useBean id="DBworker" class="util.DBWorker" scope="session"/>
         <c:choose>
             <c:when test="${(!empty param.button) && (param.button=='Customers')}">
                 <table>

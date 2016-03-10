@@ -53,14 +53,14 @@ public class Order extends ModelItem {
         this.stat = stat;
     }
 
-    @XmlElement(name = "Service_ID")
-    public void setServiceID(int serviceID){this.serviceId=serviceID;}
+
+   /* public void setServiceID(int serviceId){this.serviceId=serviceId;}
+
     public int serviceidProperty(){return serviceId;}
 
-    @XmlElement(name = "Previous_order_ID")
-    public void setPrevOrderID(int prevOrderID){this.prevOrderId=prevOrderID;}
-    public int prevorderidProperty(){return prevOrderId;}
+    public void setPrevOrderID(int prevOrderId){this.prevOrderId=prevOrderId;}
 
+    public int prevorderidProperty(){return prevOrderId;}*/
 
     public int statProperty(){
         return stat;
@@ -112,11 +112,11 @@ public class Order extends ModelItem {
     public double getSum(){
         return sum;
     }
-
+    @XmlElement(name = "Service_ID")
     public void setServiceId(int serviceId) {
         this.serviceId = serviceId;
     }
-
+    @XmlElement(name = "Previous_order_ID")
     public void setPrevOrderId(int prevOrderId) {
         this.prevOrderId = prevOrderId;
     }

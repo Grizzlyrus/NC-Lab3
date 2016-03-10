@@ -11,6 +11,13 @@
         </webroots>
       </configuration>
     </facet>
+    <facet type="ejb" name="EJB">
+      <configuration>
+        <ejbRoots>
+          <root url="file://$MODULE_DIR$/src" />
+        </ejbRoots>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -22,5 +29,6 @@
     <orderEntry type="library" scope="PROVIDED" name="GlassFish 4.0.0" level="application_server_libraries" />
     <orderEntry type="library" name="jstl:jstl:1.2" level="project" />
     <orderEntry type="library" name="jQuery" level="application" />
+    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
   </component>
 </module>

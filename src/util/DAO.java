@@ -128,7 +128,7 @@ public class DAO{
             while (resultSet.next()){
                 Order order=new Order(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),resultSet.getInt(5),resultSet.getDate(6).toLocalDate(),
                         resultSet.getDouble(7),resultSet.getInt(8));
-                order.setServiceID(resultSet.getInt(4));
+                order.setServiceId(resultSet.getInt(4));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -154,7 +154,7 @@ public class DAO{
             while (resultSet.next()){
                 Order order=new Order(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),resultSet.getInt(5),resultSet.getDate(6).toLocalDate(),
                         resultSet.getDouble(7),resultSet.getInt(8));
-                order.setServiceID(resultSet.getInt(4));
+                order.setServiceId(resultSet.getInt(4));
                 orders.add(order);
             }
         } catch (SQLException e) {

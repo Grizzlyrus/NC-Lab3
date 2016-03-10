@@ -1,12 +1,11 @@
 package util;
 
-import model.Customer;
-import model.Order;
-import model.Service;
-import model.Tariff;
+import model.*;
 
+import javax.ejb.EJB;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -310,6 +309,25 @@ public class DBWorker {
                 e.printStackTrace();
             }
         }
+    }
+    public void addItems(ModelItemCollection modelItemCollection){
+        if (modelItemCollection==null){
+            System.out.println("++++++++++++++++++++++++++++++");
+        }
+        Map<Integer,ModelItem> itemMap=modelItemCollection.getModIt();
+        for(Map.Entry<Integer,ModelItem> entry:itemMap.entrySet()){
+            ModelItem value=entry.getValue();
+            if(entry.getValue() instanceof Customer){
+                addCustomer((Customer) value);
+            }else if (entry.getValue() instanceof Order){
+                addOrder((Order) value);
+            }else if(entry.getValue() instanceof Tariff){
+                addTariff((Tariff) value);
+            }else  if(entry.getValue() instanceof Service){
+                addService((Service) value);
+            }
+        }
+        refreshLists();
     }
 
 }

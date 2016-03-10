@@ -1,22 +1,27 @@
 package util;
 
-import model.Customer;
-import model.Order;
-import model.Service;
-import model.Tariff;
+import bean.Import;
+import bean.ImportBean;
+import model.*;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * Created by Iorlov on 10.02.2016.
  */
-@WebServlet(urlPatterns = {"/newcustomer","/neworder","/newtariff","/newservice","/getsum","/getCustomer","/mCustomer","/mTariff","/mOrder"})
+@WebServlet(urlPatterns = {"/newcustomer","/neworder","/newtariff","/newservice","/getsum","/getCustomer","/mCustomer","/mTariff","/mOrder","/Import"})
 public class Servlet extends HttpServlet{
+    @EJB
+    private Import importBean;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DBWorker dbWorker= (DBWorker) req.getSession().getAttribute("DBworker");
@@ -37,7 +42,7 @@ public class Servlet extends HttpServlet{
                 s1.setTariffID(t1.numberProperty());
                 Order o=new Order((int) (Math.random()*5000),customerId,t1.numberProperty(),t1.getCost());
                 s1.setActualOrderID(o.numberProperty());
-                o.setServiceID(s1.numberProperty());
+                o.setServiceId(s1.numberProperty());
                 o.setPrevOrderId(0);
                 o.setStat(0);
                 dbWorker.addService(s1);
@@ -58,7 +63,6 @@ public class Servlet extends HttpServlet{
 
                 break;
             case "/getsum":
-                System.out.println(req.getParameter("tariff"));
                 resp.getWriter().print(((DBWorker)req.getSession()
                         .getAttribute("DBworker")).findTariffByID(Integer.parseInt(req.getParameter("tariff"))).get(0).costProperty());
                 return;
@@ -102,6 +106,15 @@ public class Servlet extends HttpServlet{
                 service.setTariffID(tariff1.getNumber());
                 dbWorker.modifyService(service);
                 resp.sendRedirect(req.getContextPath()+"/index.jsp?button=Orders");
+                return;
+            case "/Import":
+                String xmlText=req.getParameter("xmlText");
+                ModelItemCollection itemCollection=importBean.xmlImport(xmlText);
+                if (itemCollection==null){
+                    System.out.println("**************************************");
+                }
+                dbWorker.addItems(itemCollection);
+                resp.sendRedirect(req.getContextPath()+"/index.jsp");
                 return;
         }
         resp.sendRedirect(req.getHeader("referer"));

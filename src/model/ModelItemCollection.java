@@ -3,6 +3,8 @@ package model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import java.io.Serializable;
+import java.rmi.Remote;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +13,8 @@ import java.util.Map;
  */
 
 @XmlRootElement(name = "Collection")
-@XmlSeeAlso({Tariff.class, Customer.class, Order.class})
-public class ModelItemCollection<T extends ModelItem> {
+@XmlSeeAlso({Tariff.class, Customer.class, Order.class,Service.class})
+public class ModelItemCollection<T extends ModelItem> implements Serializable{
 
     private Map<Integer, T> ModIt;
 
