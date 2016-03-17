@@ -5,19 +5,29 @@ import bean.ImportBean;
 import model.*;
 
 import javax.ejb.EJB;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
  * Created by Iorlov on 10.02.2016.
  */
-@WebServlet(urlPatterns = {"/newcustomer","/neworder","/newtariff","/newservice","/getsum","/getCustomer","/mCustomer","/mTariff","/mOrder","/Import"})
+@WebServlet(urlPatterns = {"/newcustomer","/neworder","/newtariff","/newservice","/getsum","/getCustomer","/mCustomer","/mTariff","/mOrder","/Import","/Export","/ExportHTML"})
 public class Servlet extends HttpServlet{
     @EJB
     private Import importBean;
@@ -110,14 +120,90 @@ public class Servlet extends HttpServlet{
             case "/Import":
                 String xmlText=req.getParameter("xmlText");
                 ModelItemCollection itemCollection=importBean.xmlImport(xmlText);
-                if (itemCollection==null){
-                    System.out.println("**************************************");
-                }
                 dbWorker.addItems(itemCollection);
                 resp.sendRedirect(req.getContextPath()+"/index.jsp");
+                return;
+            case "/Export":
+                req.getSession().setAttribute("data","Message");
+                resp.sendRedirect("exportPage.jsp");
                 return;
         }
         resp.sendRedirect(req.getHeader("referer"));
 
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        DBWorker dbWorker= (DBWorker) req.getSession().getAttribute("DBworker");
+        System.out.println("qwerty");
+        switch (req.getServletPath()){
+            case "/Export":
+                HashMap<Integer, ModelItem> itemHashMap= new HashMap<>();
+                String param=req.getParameter("table");
+                ArrayList<? extends ModelItem>  items=getItems(param,dbWorker);
+                for(ModelItem item:items){
+                    itemHashMap.put(item.getNumber(),item);
+                }
+                ModelItemCollection itemCollection =new ModelItemCollection();
+                itemCollection.setModIt(itemHashMap);
+                String xml =importBean.exportToXml(itemCollection);
+                System.out.println("SIZE "+items.size());
+                req.getSession().setAttribute("xml",xml);
+                xml=xml.replaceAll("<","&lt");
+                //s=s.replaceAll("<","&lt");
+                //s=s.replaceAll("\n","<br/>");
+                //s=s.replaceAll("\\s","&nbsp");
+                req.getSession().setAttribute("data",xml);
+                resp.sendRedirect("exportPage.jsp?table="+param);
+                return;
+            case "/ExportHTML":
+                resp.setContentType("text/html");
+                String s= (String) req.getSession().getAttribute("xml");
+                StringReader reader=new StringReader(s);
+                try {
+                    TransformerFactory tFactory=TransformerFactory.newInstance();
+                    String url=selectUrl(req.getParameter("table"));
+                    StreamSource ss=new StreamSource(url);
+                    /*Scanner sc=new Scanner(ss.getReader());
+                    while (sc.hasNext()){
+                        System.out.println(sc.nextLine());
+                    }*/
+                    Transformer transformer=tFactory.newTransformer(ss);
+                    transformer.transform(new StreamSource(reader),new StreamResult(resp.getOutputStream()));
+
+                } catch (TransformerException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+    private ArrayList<? extends ModelItem> getItems(String param,DBWorker dbWorker){
+        switch (param){
+            case "Customers":
+                return dbWorker.getCustomers();
+            case "Tariffs":
+                return dbWorker.getTariffs();
+            case "Orders":
+                return dbWorker.getOrders();
+            case "Services":
+                return dbWorker.getServices();
+            default:
+                return new ArrayList<>();
+        }
+    }
+    private String selectUrl(String param){
+        ServletContext context=getServletContext();
+        switch (param){
+            case "Customers":
+                return context.getRealPath("/TransformCustomer.xsl");
+            case "Tariffs":
+                return context.getRealPath("/TransformTariff.xsl");
+            case "Orders":
+                return context.getRealPath("/TransformOrder.xsl");
+            case "Services":
+                return context.getRealPath("/TransformService.xsl");
+            default:
+                return "";
+        }
     }
 }

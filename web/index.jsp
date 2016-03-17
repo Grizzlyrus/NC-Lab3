@@ -38,6 +38,9 @@
             </div>
         </div></li>
         <li><a href="importPage.jsp">Import</a></li>
+        <c:if test="${!empty param.button}">
+            <li><a href="Export?table=${param.button}">Export ${param.button}</a></li>
+        </c:if>
     </ul>
     <div id="content">
         <c:choose>

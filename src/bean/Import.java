@@ -12,4 +12,5 @@ import java.io.Reader;
 @Remote
 public interface Import{
     ModelItemCollection xmlImport(String string);
+    String exportToXml(ModelItemCollection itemCollection);
 }

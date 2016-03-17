@@ -7,10 +7,12 @@ import org.xml.sax.InputSource;
 import javax.ejb.Stateless;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.BufferedReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,5 +44,23 @@ public class ImportBean implements Import{
         }
 
         return modcoll;
+    }
+
+    @Override
+    public String exportToXml(ModelItemCollection itemCollection) {
+        JAXBContext jaxbContext = null;
+        try {
+            jaxbContext = JAXBContext.newInstance(ModelItemCollection.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            StringWriter writer=new StringWriter();
+            jaxbMarshaller.marshal(itemCollection, writer);
+            return writer.toString();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 }
